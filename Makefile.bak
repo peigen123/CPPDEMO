@@ -1,0 +1,17 @@
+cc ?= gcc
+TARGET = test
+PROJECTDIR = $(shell pwd)
+TARGETDIR = $(PROJECTDIR)/bin
+OBJDIR = $(PROJECTDIR)/obj
+SRCDIR = $(PROJECTDIR)/src
+SRCLIST = $(notdir $(wildcard $(SRCDIR)/*.c))
+OBJLIST = $(patsubst %.c,$(OBJDIR)/%.o,$(SRCLIST))
+
+$(TARGETDIR)/$(TARGET) : $(OBJLIST)
+	$(cc) $^ -o $@ -g
+
+$(OBJDIR)/%.o : $(SRCDIR)/%.c
+	$(cc) -c $< -o $@ -g
+
+clean:
+	rm bin/* obj/*
